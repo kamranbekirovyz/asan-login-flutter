@@ -6,11 +6,13 @@ import 'package:webview_flutter/webview_flutter.dart';
 class AsanLoginView extends StatefulWidget {
   final String packageName;
   final Function(String) whenLogged;
+  final bool isDevMode;
 
   const AsanLoginView({
     Key? key,
     required this.packageName,
     required this.whenLogged,
+    this.isDevMode = false,
   }) : super(key: key);
 
   @override
@@ -18,7 +20,13 @@ class AsanLoginView extends StatefulWidget {
 }
 
 class _AsanLoginViewState extends State<AsanLoginView> {
-  String get _url => '${Constants.asanLoginUrl}${widget.packageName}';
+  String get _url {
+    final isDevMode = widget.isDevMode;
+    final mainUrl = isDevMode ? Constants.asanLoginTestUrl : Constants.asanLoginProdUrl;
+    final suffix = widget.packageName;
+
+    return '$mainUrl$suffix';
+  }
 
   final _bloc = AsanLoginBloc();
 
