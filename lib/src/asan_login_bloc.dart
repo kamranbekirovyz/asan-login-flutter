@@ -1,13 +1,14 @@
 import 'dart:async';
 
 import 'package:asan_login_flutter/src/constants.dart';
-import 'package:asan_login_flutter/src/string_extensions.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class AsanLoginBloc {
-  final controller = Completer<WebViewController>();
+  late final InAppWebViewController webviewController;
+
+  CookieManager get cookieManager => CookieManager.instance();
 
   final _currentUrlController = BehaviorSubject<String>();
   final _progressController = BehaviorSubject<double>.seeded(1.0);
@@ -25,30 +26,34 @@ class AsanLoginBloc {
     updateProgress(progress.toDouble());
   }
 
-  void onWebViewCreated(WebViewController _controller) {
-    controller.complete(_controller);
+  void onWebViewCreated(InAppWebViewController controller) async {
+    webviewController = controller;
   }
 
-  Future<NavigationDecision> navigationDelegate(
-    NavigationRequest request,
-    Function(String) onLogin,
-  ) async {
-    try {
-      final requestedUrl = request.url;
-      updateCurrentUrl(requestedUrl);
+  Future<void> handleUrl(Uri? uri, Function(String) onLogin) async {
+    if (uri != null) {
+      final url = uri.toString();
+      updateCurrentUrl(url);
+      debugPrint(uri.toString());
 
-      final cookies = await ((await controller.future).evaluateJavascript('document.cookie'));
-
-      final containsToken = cookies.contains('token=');
-      if (containsToken) {
-        final token = cookies.allBetween('token=', ';');
-        onLogin.call(token);
+      if (url.contains(Constants.onLoginUrlContains)) {
+        debugPrint('ASAN Login success!');
+        await checkCookieForUri(uri, onLogin);
       }
-    } catch (e) {
-      print(e.toString());
     }
+  }
 
-    return NavigationDecision.navigate;
+  Future<void> checkCookieForUri(Uri uri, Function(String) onLogin) async {
+    final tokenCookie = await cookieManager.getCookie(
+      url: uri,
+      name: 'token',
+    );
+    if (tokenCookie == null) {
+      debugPrint('For some reason, cookie with \'token\' could not retrieved');
+    } else {
+      debugPrint('Cookie: $tokenCookie');
+      onLogin.call(tokenCookie.value);
+    }
   }
 
   void close() {
