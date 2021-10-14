@@ -1,7 +1,3 @@
 library asan_login_flutter;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/asan_login_view.dart';

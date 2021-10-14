@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:asan_login_flutter/src/constants.dart';
+import 'package:asan_login_flutter/src/string_extensions.dart';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -22,16 +23,6 @@ class AsanLoginBloc {
 
   void onProgress(int progress) {
     updateProgress(progress.toDouble());
-    debugPrint("WebView is loading, progress: $progress%");
-  }
-
-  void onPageStarted(String url) {
-    updateCurrentUrl(url);
-    debugPrint('Page started loading: $url');
-  }
-
-  void onPageFinished(String url) {
-    debugPrint('Page finished loading: $url');
   }
 
   void onWebViewCreated(WebViewController _controller) {
@@ -40,17 +31,23 @@ class AsanLoginBloc {
 
   Future<NavigationDecision> navigationDelegate(
     NavigationRequest request,
-    Function(String) whenLogged,
+    Function(String) onLogin,
   ) async {
-    final requestedUrl = request.url;
-    if (requestedUrl == Constants.successRedirectUrl) {
-      final cookies = (await controller.future).evaluateJavascript('document.cookie');
-      print('cookies: $cookies');
+    try {
+      final requestedUrl = request.url;
+      updateCurrentUrl(requestedUrl);
 
-      return NavigationDecision.prevent;
+      final cookies = await ((await controller.future).evaluateJavascript('document.cookie'));
+
+      final containsToken = cookies.contains('token=');
+      if (containsToken) {
+        final token = cookies.allBetween('token=', ';');
+        onLogin.call(token);
+      }
+    } catch (e) {
+      print(e.toString());
     }
 
-    debugPrint('allowing navigation to $request, with url of: ${request.url}');
     return NavigationDecision.navigate;
   }
 

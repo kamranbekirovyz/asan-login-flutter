@@ -5,14 +5,16 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class AsanLoginView extends StatefulWidget {
   final String packageName;
-  final Function(String) whenLogged;
+  final Function(String) onLogin;
   final bool isDevMode;
+  final bool clearCookies;
 
   const AsanLoginView({
     Key? key,
     required this.packageName,
-    required this.whenLogged,
+    required this.onLogin,
     this.isDevMode = false,
+    this.clearCookies = true,
   }) : super(key: key);
 
   @override
@@ -44,10 +46,8 @@ class _AsanLoginViewState extends State<AsanLoginView> {
       onWebViewCreated: _bloc.onWebViewCreated,
       onProgress: _bloc.onProgress,
       navigationDelegate: (NavigationRequest delegate) {
-        return _bloc.navigationDelegate(delegate, widget.whenLogged);
+        return _bloc.navigationDelegate(delegate, widget.onLogin);
       },
-      onPageStarted: _bloc.onPageStarted,
-      onPageFinished: _bloc.onPageFinished,
       gestureNavigationEnabled: true,
     );
   }
