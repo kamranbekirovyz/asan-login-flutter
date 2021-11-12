@@ -1,7 +1,10 @@
 import 'package:asan_login_flutter/src/asan_login_bloc.dart';
-import 'package:asan_login_flutter/src/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+
+const asanLoginProdUrl = 'https://asanloginmobile.my.gov.az/auth?mobilekey=';
+const asanLoginTestUrl = 'https://asanloginmobiletest.my.gov.az/auth?mobilekey=';
+const onLoginUrlContains = '/dashboard';
 
 class AsanLoginView extends StatefulWidget {
   final String packageName;
@@ -26,7 +29,7 @@ class AsanLoginView extends StatefulWidget {
 class _AsanLoginViewState extends State<AsanLoginView> {
   String get _url {
     final isDevMode = widget.isDevMode;
-    final mainUrl = isDevMode ? Constants.asanLoginTestUrl : Constants.asanLoginProdUrl;
+    final mainUrl = isDevMode ? asanLoginTestUrl : asanLoginProdUrl;
     final suffix = widget.packageName;
 
     return '$mainUrl$suffix';
@@ -37,10 +40,15 @@ class _AsanLoginViewState extends State<AsanLoginView> {
   @override
   void initState() {
     super.initState();
-    // bir dfe login olubsa /dashboarda yox bura atacaq
-    _bloc.checkCookieForUri(Uri.parse(_url), widget.onLogin);
+    _configure();
+  }
+
+  Future<void> _configure() async {
     if (widget.clearCookies) {
-      _bloc.cookieManager.deleteAllCookies();
+      await _bloc.cookieManager.deleteAllCookies();
+    } else {
+      /// Check whether user already logged in
+      _bloc.checkCookieForUri(Uri.parse(_url), widget.onLogin, recursive: false);
     }
   }
 

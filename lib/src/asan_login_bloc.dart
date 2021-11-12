@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:asan_login_flutter/src/constants.dart';
-import 'package:flutter/foundation.dart';
+import 'package:asan_login_flutter/asan_login_flutter.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -9,6 +8,8 @@ class AsanLoginBloc {
   late final InAppWebViewController webviewController;
 
   CookieManager get cookieManager => CookieManager.instance();
+
+  bool _onLoginCalled = false;
 
   final _currentUrlController = BehaviorSubject<String>();
   final _progressController = BehaviorSubject<double>.seeded(1.0);
@@ -34,25 +35,36 @@ class AsanLoginBloc {
     if (uri != null) {
       final url = uri.toString();
       updateCurrentUrl(url);
-      debugPrint(uri.toString());
+      print('[ASAN LOGIN] current url: $uri');
 
-      if (url.contains(Constants.onLoginUrlContains)) {
-        debugPrint('ASAN Login success!');
-        await checkCookieForUri(uri, onLogin);
-      }
+      // if (url.contains(onLoginUrlContains)) {
+      // print('[ASAN LOGIN] success!');
+      await checkCookieForUri(uri, onLogin);
+      // }
     }
   }
 
-  Future<void> checkCookieForUri(Uri uri, Function(String) onLogin) async {
-    final tokenCookie = await cookieManager.getCookie(
-      url: uri,
-      name: 'token',
-    );
+  Future<void> checkCookieForUri(
+    Uri uri,
+    Function(String) onLogin, {
+    bool recursive = true,
+  }) async {
+    final tokenCookie = await cookieManager.getCookie(url: uri, name: 'token');
+
     if (tokenCookie == null) {
-      debugPrint('For some reason, cookie with \'token\' could not retrieved');
+      print('[ASAN LOGIN] For some reason, cookie with \'token\' could not retrieved');
+
+      if (recursive) {
+        await Future.delayed(const Duration(seconds: 2)).then((value) {
+          checkCookieForUri(uri, onLogin, recursive: false);
+        });
+      }
     } else {
-      debugPrint('Cookie: $tokenCookie');
-      onLogin.call(tokenCookie.value);
+      print('[ASAN LOGIN] Cookie: $tokenCookie');
+      if (!_onLoginCalled) {
+        onLogin.call(tokenCookie.value);
+        _onLoginCalled = true;
+      }
     }
   }
 
