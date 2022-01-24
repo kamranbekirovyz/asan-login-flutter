@@ -48,7 +48,7 @@ class _AsanLoginViewState extends State<AsanLoginView> {
       await _bloc.cookieManager.deleteAllCookies();
     } else {
       /// Check whether user already logged in
-      _bloc.checkCookieForUri(Uri.parse(_url), widget.onLogin, recursive: false);
+      _bloc.checkCookieForUri(Uri.parse(_url), widget.onLogin);
     }
   }
 
