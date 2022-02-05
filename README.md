@@ -56,7 +56,8 @@ Called when user successfully logs in, with `token` (`String`);
 - [x] Switching between `dev` and `prod` environments.
 - [x] Documentation for source code.
 - [x] README.md.
-- [ ] Integrations tests.
+- [ ] Integration tests.
 - [ ] Better documentation of source codes.
 - [x] Example app.
 - [ ] Flutter Web support.
+- [ ] Document platform specific configurations if any.
