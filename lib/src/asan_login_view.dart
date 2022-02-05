@@ -1,25 +1,23 @@
 import 'package:asan_login_flutter/src/asan_login_bloc.dart';
+import 'package:asan_login_flutter/src/asan_login_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
+typedef OnLoginSuccess = void Function(String token);
+
 const asanLoginProdUrl = 'https://asanloginmobile.my.gov.az/auth?mobilekey=';
 const asanLoginTestUrl = 'https://asanloginmobiletest.my.gov.az/auth?mobilekey=';
-const onLoginUrlContains = '/dashboard';
 
 class AsanLoginView extends StatefulWidget {
   final String packageName;
-  final Function(String) onLogin;
-  final bool isDevMode;
-  final bool clearCookies;
-  final Color progressColor;
+  final OnLoginSuccess onLogin;
+  final AsanLoginConfig configurations;
 
   const AsanLoginView({
     Key? key,
     required this.packageName,
     required this.onLogin,
-    this.isDevMode = false,
-    this.clearCookies = true,
-    this.progressColor = Colors.indigo,
+    this.configurations = const AsanLoginConfig(),
   }) : super(key: key);
 
   @override
@@ -28,7 +26,7 @@ class AsanLoginView extends StatefulWidget {
 
 class _AsanLoginViewState extends State<AsanLoginView> {
   String get _url {
-    final isDevMode = widget.isDevMode;
+    final isDevMode = widget.configurations.isDevMode;
     final mainUrl = isDevMode ? asanLoginTestUrl : asanLoginProdUrl;
     final suffix = widget.packageName;
 
@@ -44,11 +42,15 @@ class _AsanLoginViewState extends State<AsanLoginView> {
   }
 
   Future<void> _configure() async {
-    if (widget.clearCookies) {
+    _bloc.loggingEnabled = widget.configurations.isDevMode;
+
+    if (widget.configurations.clearCookies) {
       await _bloc.cookieManager.deleteAllCookies();
     } else {
-      /// Check whether user already logged in
-      _bloc.checkCookieForUri(Uri.parse(_url), widget.onLogin);
+      _bloc.checkCookieForUri(
+        Uri.parse(_url),
+        widget.onLogin,
+      );
     }
   }
 
@@ -82,15 +84,17 @@ class _AsanLoginViewState extends State<AsanLoginView> {
   }
 
   Widget _buildProgress() {
+    final progressColor = widget.configurations.progressColor;
+
     return StreamBuilder<double>(
       initialData: 100,
       stream: _bloc.progress$,
       builder: (_, snapshot) {
-        if (snapshot.hasData && snapshot.data! < 100) {
+        if (snapshot.data! < 100) {
           return LinearProgressIndicator(
             value: snapshot.data! / 100,
-            valueColor: AlwaysStoppedAnimation<Color>(widget.progressColor),
-            backgroundColor: widget.progressColor.withOpacity(.25),
+            valueColor: AlwaysStoppedAnimation<Color>(progressColor),
+            backgroundColor: progressColor.withOpacity(.25),
           );
         }
 

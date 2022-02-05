@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:asan_login_flutter/asan_login_flutter.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -9,6 +10,7 @@ class AsanLoginBloc {
   CookieManager get cookieManager => CookieManager.instance();
 
   bool _onLoginCalled = false;
+  bool loggingEnabled = false;
 
   final _currentUrlController = BehaviorSubject<String>();
   final _progressController = BehaviorSubject<double>.seeded(1.0);
@@ -35,7 +37,7 @@ class AsanLoginBloc {
       final url = uri.toString();
       updateCurrentUrl(url);
 
-      print('[ASAN LOGIN] current url: $uri');
+      _print('[ASAN LOGIN] current url: $uri');
 
       Future.delayed(const Duration(milliseconds: 500), () {
         checkCookieForUri(uri, onLogin);
@@ -45,9 +47,9 @@ class AsanLoginBloc {
 
   Future<void> checkCookieForUri(
     Uri uri,
-    Function(String) onLogin,
+    OnLoginSuccess onLogin,
   ) async {
-    print('[ASAN LOGIN] Checking cookie for uri: $uri');
+    _print('[ASAN LOGIN] Checking cookie for uri: $uri');
 
     final tokenCookie = await cookieManager.getCookie(
       url: uri,
@@ -55,14 +57,20 @@ class AsanLoginBloc {
     );
 
     if (tokenCookie == null) {
-      print('[ASAN LOGIN] No stored token found for uri: $uri');
+      _print('[ASAN LOGIN] No stored token found for uri: $uri');
     } else {
-      print('[ASAN LOGIN] Cookie: $tokenCookie');
+      _print('[ASAN LOGIN] Cookie: $tokenCookie');
 
       if (!_onLoginCalled) {
         onLogin.call(tokenCookie.value);
         _onLoginCalled = true;
       }
+    }
+  }
+
+  void _print(String s) {
+    if (loggingEnabled) {
+      print(s);
     }
   }
 
