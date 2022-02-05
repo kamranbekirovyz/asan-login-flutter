@@ -1,4 +1,4 @@
-## 0.9.0
+## 1.0.0
 
 The package is tested on production level, thus ready for use.
 

@@ -60,4 +60,7 @@ Called when user successfully logs in, with `token` (`String`);
 - [ ] Better documentation of source codes.
 - [x] Example app.
 - [ ] Flutter Web support.
+- [ ] Windows Support.
+- [ ] MacOS support.
+- [ ] Linux support.
 - [ ] Document platform specific configurations if any.
