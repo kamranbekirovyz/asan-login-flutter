@@ -1,4 +1,4 @@
-# asan_login_flutter
+<img src="https://github.com/porelarte/asan_login_flutter/raw/master/doc/assets/cover.png" width="100%" alt="logo" />
 
 ASAN Login for Flutter
 
