@@ -10,7 +10,7 @@ const asanLoginTestUrl = 'https://asanloginmobiletest.my.gov.az/auth?mobilekey='
 
 /// Webframe implementation for ASAN Login as a Flutter widget.
 class AsanLoginView extends StatefulWidget {
-  /// The `packageName` under which your project is registered on ASAN Login
+  /// The [packageName] under which your project is registered on ASAN Login
   final String packageName;
 
   /// Called when user successfully logs in, with [token] (String);
@@ -55,8 +55,7 @@ class _AsanLoginViewState extends State<AsanLoginView> {
     if (widget.config.clearCookies) {
       await _bloc.cookieManager.deleteAllCookies();
     } else {
-      /// Check whether user's already logged in, if yes, return
-      /// `token` string.
+      /// If the user's already logged in, if yes, return [token] string.
       _bloc.checkCookieForUri(
         Uri.parse(_url),
         widget.onLogin,

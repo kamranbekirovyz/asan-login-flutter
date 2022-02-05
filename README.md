@@ -14,18 +14,18 @@ A basic, production-ready implementation for `ASAN Login`. The main responsibili
 
 ```dart
 Widget build(BuildContext context) {
-    return AsanLoginView(
-      packageName: 'com.example.app',
-      config: AsanLoginConfig(
-        progressColor: Colors.indigo,
-        clearCookies: true,
-        environment: AsanLoginEnvironment.prod,
-      ),
-      onLogin: (String token) {
-        // TODO: process token
-      },
-    );
-  }
+  return AsanLoginView(
+    packageName: 'com.example.app',
+    config: AsanLoginConfig(
+      progressColor: Colors.indigo,
+      clearCookies: true,
+      environment: AsanLoginEnvironment.prod,
+    ),
+    onLogin: (String token) {
+      // TODO: process token
+    },
+  );
+}
 ```
 
 ### packageName
@@ -55,7 +55,8 @@ Called when user successfully logs in, with `token` (`String`);
 - [x] Retrieve token when logged in.
 - [x] Switching between `dev` and `prod` environments.
 - [x] Documentation for source code.
-- [x] Readme.
+- [x] README.md.
 - [ ] Integrations tests.
 - [ ] Better documentation of source codes.
-- [ ] Example app.
+- [x] Example app.
+- [ ] Flutter Web support.
