@@ -1,7 +1,7 @@
 name: asan_login_flutter
-description: ASAN Login for Flutter
-version: 0.0.1
-homepage:
+description: ASAN Login implementation for Flutter (maintained by community)
+version: 1.0.0
+homepage: https://github.com/porelarte/asan-login-flutter
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
