@@ -8,7 +8,7 @@ ASAN Login for Flutter
 
 A basic, production-ready, `community-driven` implementation for `ASAN Login`. The main responsibility of the package, as it is sufficient for mobile-side of the projects, is to extract `token` once the user is successfully logged in. The extracted `token`'s payload contains logged user's basic information. For advanced validation of user, please refer to `ASAN Login`'s documentation provided to your institution.
 
-NOTE: Tough it does not mean it is unstable, but, nevertheless it's worthwhile to inform developers that are going to use it that, this package is not officially developed and maintained by `ASAN Login` itself, but rather by Flutter community.
+NOTE: Altough it does not mean it is unstable, but, nevertheless it's worthwhile to inform developers that are going to use it that, this package is not officially developed and maintained by `ASAN Login` itself, but rather by Flutter community.
 
 ---
 
