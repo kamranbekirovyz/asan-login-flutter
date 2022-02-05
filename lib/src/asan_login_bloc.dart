@@ -4,6 +4,7 @@ import 'package:asan_login_flutter/asan_login_flutter.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:rxdart/rxdart.dart';
 
+/// Business Logic for [AsanLoginView]
 class AsanLoginBloc {
   late final InAppWebViewController webviewController;
 

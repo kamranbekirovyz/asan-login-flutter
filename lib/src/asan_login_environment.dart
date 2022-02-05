@@ -1,0 +1,4 @@
+enum AsanLoginEnvironment {
+  prod,
+  dev,
+}

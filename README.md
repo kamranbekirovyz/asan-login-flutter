@@ -16,10 +16,10 @@ A basic, production-ready implementation for `ASAN Login`. The main responsibili
 Widget build(BuildContext context) {
     return AsanLoginView(
       packageName: 'com.example.app',
-      configurations: AsanLoginConfig(
+      config: AsanLoginConfig(
         progressColor: Colors.indigo,
         clearCookies: true,
-        isDevMode: false,
+        environment: AsanLoginEnvironment.prod,
       ),
       onLogin: (String token) {
         // TODO: process token
@@ -30,19 +30,19 @@ Widget build(BuildContext context) {
 
 ### packageName
 
-The `packageName` under which your project is registered on `ASAN Login` system. Make sure to use same String for your app's both `applicationId` on Android side and `CFBundleIdentifier` on iOS side.
+The `packageName` under which your project is registered on `ASAN Login` system. Make sure to use same String for your app's both `applicationId` on Android side and `CFBundleIdentifier` on iOS side to avoid any side effects.
 
 ### progressColor
 
-Color which is used to indicate the load progress at the top of the Page.
+Color which is used to indicate the load progress at the top of the `AsanLoginView`.
 
 ### clearCookies
 
 When `clearCookies` is set to `true` user stays as logged in if previously logged. When set to `false` (which is recommended to use as a configuration for most of the use cases of `ASAN Login`) user gets redirected to the login page of `ASAN Login` everytime.
 
-### isDevMode
+### environment
 
-For more info on `dev` and `prod` environments, please refer to `ASAN Login`'s documentation provided to your institution.
+Defines environment for `ASAN Login`. For more info on `dev` and `prod` environments, please refer to `ASAN Login`'s documentation provided to your institution.
 
 ### onLogin
 
@@ -54,6 +54,8 @@ Called when user successfully logs in, with `token` (`String`);
 
 - [x] Retrieve token when logged in.
 - [x] Switching between `dev` and `prod` environments.
+- [x] Documentation for source code.
 - [x] Readme.
 - [ ] Integrations tests.
 - [ ] Better documentation of source codes.
+- [ ] Example app.
