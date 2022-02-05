@@ -1,4 +1,4 @@
-<img src="https://github.com/porelarte/asan_login_flutter/raw/master/doc/assets/cover.png" width="100%" alt="logo" />
+<img src="https://raw.githubusercontent.com/porelarte/asan-login-flutter/master/doc/assets/cover.png" width="100%" alt="logo" />
 
 ASAN Login for Flutter
 
