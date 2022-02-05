@@ -1,3 +1,11 @@
+## 1.0.2
+
+Disclaimer note about package added.
+
+## 1.0.1
+
+Static analysis issues fixed.
+
 ## 1.0.0
 
 The package is tested on production level, thus ready for use.
