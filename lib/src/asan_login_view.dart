@@ -6,8 +6,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 typedef OnLoginSuccess = void Function(String token);
 
 const asanLoginProdUrl = 'https://asanloginmobile.my.gov.az/auth?mobilekey=';
-const asanLoginTestUrl =
-    'https://asanloginmobiletest.my.gov.az/auth?mobilekey=';
+const asanLoginTestUrl = 'https://asanloginmobiletest.my.gov.az/auth?mobilekey=';
 
 /// Webframe implementation for ASAN Login as a Flutter widget.
 class AsanLoginView extends StatefulWidget {
@@ -54,13 +53,10 @@ class _AsanLoginViewState extends State<AsanLoginView> {
     _bloc.loggingEnabled = _devMode;
 
     if (widget.config.clearCookies) {
-      await _bloc.cookieManager.deleteAllCookies();
+      await clearAsanLoginCache();
     } else {
-      /// If the user's already logged in, if yes, return [token] string.
-      _bloc.checkCookieForUri(
-        Uri.parse(_url),
-        widget.onLogin,
-      );
+      /// If the user's already logged in, return [token] string.
+      _bloc.checkCookieForUri(Uri.parse(_url), widget.onLogin);
     }
   }
 

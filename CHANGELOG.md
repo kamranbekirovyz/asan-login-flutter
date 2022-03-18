@@ -1,3 +1,7 @@
+## 1.1.0
+
+clearAsanLoginCache() global method to clear cache for situations when user logs out.
+
 ## 1.0.2
 
 Disclaimer note about package added.
