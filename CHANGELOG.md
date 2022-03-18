@@ -1,3 +1,7 @@
+## 1.1.1
+
+Static analysis issues fixed for "1.1.0"
+
 ## 1.1.0
 
 clearAsanLoginCache() global method to clear cache for situations when user logs out.
