@@ -1,3 +1,7 @@
+## 1.2.0
+
+Android 12 keyboard appearance issue fixed.
+
 ## 1.1.1
 
 Static analysis issues fixed for "1.1.0"

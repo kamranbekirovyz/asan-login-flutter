@@ -79,6 +79,17 @@ class _AsanLoginViewState extends State<AsanLoginView> {
 
   Widget _buildWebView() {
     return InAppWebView(
+      initialOptions: InAppWebViewGroupOptions(
+        crossPlatform: InAppWebViewOptions(
+          mediaPlaybackRequiresUserGesture: false,
+        ),
+        android: AndroidInAppWebViewOptions(
+          useHybridComposition: true,
+        ),
+        ios: IOSInAppWebViewOptions(
+          allowsInlineMediaPlayback: true,
+        ),
+      ),
       initialUrlRequest: URLRequest(url: Uri.parse(_url)),
       onWebViewCreated: _bloc.onWebViewCreated,
       onProgressChanged: (_, int value) {

@@ -56,6 +56,8 @@ Called when user successfully logs in, with `token` (`String`);
 
 When user's session is terminated on the app (~logout), make sure to call clearAsanLoginCache() global method to make sure user's previous `ASAN Login` cache is cleared from app's cache.
 
+---
+
 ## TODO
 
 - [x] Retrieve token when logged in.
