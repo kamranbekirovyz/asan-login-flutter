@@ -6,7 +6,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 /// Business Logic for [AsanLoginView]
 class AsanLoginBloc {
   AsanLoginBloc() {
-    _progress.add(100.0);
+    _progress.add(0.0);
   }
 
   late final InAppWebViewController webviewController;

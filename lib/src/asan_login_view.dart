@@ -78,7 +78,7 @@ class _AsanLoginViewState extends State<AsanLoginView> {
   Widget build(BuildContext context) {
     return StreamBuilder<double>(
       stream: _bloc.progress$,
-      initialData: 100.0,
+      initialData: 0.0,
       builder: (_, snapshot) {
         final progress = snapshot.data!;
         final loading = progress < 100;
