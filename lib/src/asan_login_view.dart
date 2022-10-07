@@ -6,8 +6,10 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 typedef OnLoginSuccess = void Function(String token);
 
 const asanLoginProdUrl = 'https://asanloginmobile.my.gov.az/auth?mobilekey=';
-const asanLoginTestUrl =
-    'https://asanloginmobiletest.my.gov.az/auth?mobilekey=';
+const asanLoginTestUrl = 'https://asanloginmobiletest.my.gov.az/auth?mobilekey=';
+const asanLoginColor = Color.fromRGBO(38, 89, 182, 1.0);
+
+typedef AsanLoadingWidgetBuilder = Widget Function(double progress);
 
 /// Webframe implementation for ASAN Login as a Flutter widget.
 class AsanLoginView extends StatefulWidget {
@@ -20,11 +22,18 @@ class AsanLoginView extends StatefulWidget {
   /// Configurations for [AsanLoginView]
   final AsanLoginConfig config;
 
+  /// A builder parameter for customizing loading animation, which is mainly
+  /// visible until full loading of `ASAN Login` web page.
+  ///
+  /// The progress ([double]) ranges between 0.0 and 100.0
+  final AsanLoadingWidgetBuilder? loadingWidgetBuilder;
+
   const AsanLoginView({
     Key? key,
     required this.packageName,
     required this.onLogin,
     this.config = const AsanLoginConfig(),
+    this.loadingWidgetBuilder,
   }) : super(key: key);
 
   @override
@@ -53,10 +62,8 @@ class _AsanLoginViewState extends State<AsanLoginView> {
   Future<void> _configure() async {
     _bloc.loggingEnabled = _devMode;
 
-    if (widget.config.clearCookies) {
-      await clearAsanLoginCache();
-    } else {
-      /// If the user's already logged in, return [token] string.
+    /// If the user's already logged in, return [token] string.
+    if (!widget.config.clearCookies) {
       _bloc.checkCookieForUri(Uri.parse(_url), widget.onLogin);
     }
   }
@@ -69,11 +76,33 @@ class _AsanLoginViewState extends State<AsanLoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        _buildWebView(),
-        _buildProgress(),
-      ],
+    return StreamBuilder<double>(
+      stream: _bloc.progress$,
+      initialData: 100.0,
+      builder: (_, snapshot) {
+        final progress = snapshot.data!;
+        final loading = progress < 100;
+
+        return Stack(
+          children: [
+            AnimatedOpacity(
+              duration: kThemeAnimationDuration,
+              opacity: loading ? 1.0 : 0.0,
+              child: widget.loadingWidgetBuilder != null
+                  ? widget.loadingWidgetBuilder!.call(progress)
+                  : CircularProgressIndicator.adaptive(
+                      value: progress,
+                      valueColor: AlwaysStoppedAnimation<Color>(asanLoginColor),
+                    ),
+            ),
+            AnimatedOpacity(
+              duration: kThemeAnimationDuration,
+              opacity: loading ? 0.0 : 1.0,
+              child: _buildWebView(),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -81,6 +110,7 @@ class _AsanLoginViewState extends State<AsanLoginView> {
     return InAppWebView(
       initialOptions: InAppWebViewGroupOptions(
         crossPlatform: InAppWebViewOptions(
+          clearCache: widget.config.clearCookies,
           mediaPlaybackRequiresUserGesture: false,
         ),
         android: AndroidInAppWebViewOptions(
@@ -97,26 +127,6 @@ class _AsanLoginViewState extends State<AsanLoginView> {
       },
       onLoadStop: (_, Uri? uri) {
         _bloc.handleUrl(uri, widget.onLogin);
-      },
-    );
-  }
-
-  Widget _buildProgress() {
-    final progressColor = widget.config.progressColor;
-
-    return StreamBuilder<double>(
-      initialData: 100,
-      stream: _bloc.progress$,
-      builder: (_, snapshot) {
-        if (snapshot.data! < 100) {
-          return LinearProgressIndicator(
-            value: snapshot.data! / 100,
-            valueColor: AlwaysStoppedAnimation<Color>(progressColor),
-            backgroundColor: progressColor.withOpacity(.25),
-          );
-        }
-
-        return SizedBox.shrink();
       },
     );
   }
