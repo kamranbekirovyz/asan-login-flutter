@@ -16,13 +16,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'ASAN Login Example',
-      home: MyHomePage(),
+      home: AsanLoginDemoScreen(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({
+class AsanLoginDemoScreen extends StatelessWidget {
+  const AsanLoginDemoScreen({
     Key? key,
   }) : super(key: key);
 
@@ -30,15 +30,24 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ASAN Login Example'),
+        title: const Text('ASAN Login Flutter'),
+        backgroundColor: Colors.blueGrey.shade900,
       ),
       body: AsanLoginView(
         packageName: 'com.example.example',
         config: const AsanLoginConfig(
           environment: AsanLoginEnvironment.dev,
           clearCookies: true,
-          progressColor: Colors.indigo,
         ),
+        loadingWidgetBuilder: (double progress) {
+          return Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            child: LinearProgressIndicator(
+              value: progress / 100,
+            ),
+          );
+        },
         onLogin: (String token) {
           log('logged in with token of $token');
         },
