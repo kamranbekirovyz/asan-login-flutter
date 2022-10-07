@@ -112,9 +112,11 @@ class _AsanLoginViewState extends State<AsanLoginView> {
         crossPlatform: InAppWebViewOptions(
           clearCache: widget.config.clearCookies,
           mediaPlaybackRequiresUserGesture: false,
+          supportZoom: false,
         ),
         android: AndroidInAppWebViewOptions(
           useHybridComposition: true,
+          builtInZoomControls: false,
         ),
         ios: IOSInAppWebViewOptions(
           allowsInlineMediaPlayback: true,
