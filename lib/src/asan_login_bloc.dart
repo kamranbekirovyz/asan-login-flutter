@@ -2,10 +2,13 @@ import 'dart:async';
 
 import 'package:asan_login_flutter/asan_login_flutter.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:rxdart/rxdart.dart';
 
 /// Business Logic for [AsanLoginView]
 class AsanLoginBloc {
+  AsanLoginBloc() {
+    _progress.add(100.0);
+  }
+
   late final InAppWebViewController webviewController;
 
   CookieManager get cookieManager => CookieManager.instance();
@@ -13,17 +16,14 @@ class AsanLoginBloc {
   bool _onLoginCalled = false;
   bool loggingEnabled = false;
 
-  final _currentUrlController = BehaviorSubject<String>();
-  final _progressController = BehaviorSubject<double>.seeded(1.0);
+  final _currentUrl = StreamController<String>.broadcast();
+  final _progress = StreamController<double>();
 
-  Stream<String> get currentUrl$ => _currentUrlController.stream;
-  Stream<double> get progress$ => _progressController.stream;
+  Stream<String> get currentUrl$ => _currentUrl.stream;
+  Stream<double> get progress$ => _progress.stream;
 
-  String get currentUrl => _currentUrlController.value;
-  double get progress => _progressController.value;
-
-  void updateCurrentUrl(String value) => _currentUrlController.add(value);
-  void updateProgress(double value) => _progressController.add(value);
+  void updateCurrentUrl(String value) => _currentUrl.add(value);
+  void updateProgress(double value) => _progress.add(value);
 
   void onProgress(int progress) {
     updateProgress(progress.toDouble());
@@ -76,7 +76,7 @@ class AsanLoginBloc {
   }
 
   void close() {
-    _currentUrlController.close();
-    _progressController.close();
+    _currentUrl.close();
+    _progress.close();
   }
 }
