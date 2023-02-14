@@ -10,24 +10,24 @@
 ```dart
 Widget build(BuildContext context) {
   return AsanLoginView(
-      config: const AsanLoginConfig(
-      mobileKeyAndroid: 'com.example.example',
-      mobileKeyIos: 'com.example.example',
-      environment: AsanLoginEnvironment.preProd,
-      clearCookies: true,
-    ),
-    loadingWidgetBuilder: (double progress) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 80.0),
-        child: LinearProgressIndicator(
-          value: progress / 100,
-        ),
-      );
-    },
-    onLogin: (String token) {
-      log('logged in with token of $token');
-    },
-  );
+    config: const AsanLoginConfig(
+    mobileKeyAndroid: 'com.example.example',
+    mobileKeyIos: 'com.example.example',
+    environment: AsanLoginEnvironment.preProd,
+    clearCookies: true,
+  ),
+  loadingWidgetBuilder: (double progress) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 80.0),
+      child: LinearProgressIndicator(
+        value: progress / 100,
+      ),
+    );
+  },
+  onLogin: (String token) {
+    log('logged in with token of $token');
+  },
+);
 }
 ```
 
@@ -39,7 +39,7 @@ What are considered as future enhancements?
 
 ## 🤓 Contributors
 
-<a  href="https://github.com/al-ventures/telpo-flutter-sdk/graphs/contributors"> <img  src="https://github.com/kamranbekirovyz.png" height="100">
+<a  href="https://github.com/kamranbekirovyz/asan-login-flutter/graphs/contributors"> <img  src="https://github.com/kamranbekirovyz.png" height="100">
 
 ## 💡 Inspired from/by
 
@@ -56,12 +56,6 @@ If you encounter any problems please open an issue. If you feel the library is m
 ## 📃 License
 
 MIT License
-
-<img src="https://raw.githubusercontent.com/kamranbekirovyz/asan-login-flutter/master/doc/assets/cover.png" width="100%" alt="logo" />
-
-<h2 align="center">
-ASAN Login for Flutter
-</h2>
 
 ### packageName
 
@@ -82,8 +76,6 @@ Defines environment for `ASAN Login`. For more info on `dev` and `prod` environm
 ### onLogin
 
 Called when user successfully logs in, with `token` (`String`); 
-
----
 
 ## Clearing cache
 
