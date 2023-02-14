@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:asan_login_flutter/asan_login_flutter.dart';
 import 'package:asan_login_flutter/src/asan_login_bloc.dart';
 import 'package:flutter/material.dart';
@@ -5,17 +7,13 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 typedef OnLoginSuccess = void Function(String token);
 
-const asanLoginProdUrl = 'https://asanloginmobile.my.gov.az/auth?mobilekey=';
-const asanLoginTestUrl = 'https://asanloginmobiletest.my.gov.az/auth?mobilekey=';
-const asanLoginColor = Color.fromRGBO(38, 89, 182, 1.0);
+const _preProdUrl = 'https://asanloginpreprod.my.gov.az/auth?mobilekey=';
+const _prodUrl = 'https://asanloginmobile.my.gov.az/auth?mobilekey=';
+const _color = Color.fromRGBO(38, 89, 182, 1.0);
 
 typedef AsanLoadingWidgetBuilder = Widget Function(double progress);
 
-/// Webframe implementation for ASAN Login as a Flutter widget.
 class AsanLoginView extends StatefulWidget {
-  /// The [packageName] under which your project is registered on ASAN Login
-  final String packageName;
-
   /// Called when user successfully logs in, with [token] (String);
   final OnLoginSuccess onLogin;
 
@@ -30,9 +28,8 @@ class AsanLoginView extends StatefulWidget {
 
   const AsanLoginView({
     Key? key,
-    required this.packageName,
     required this.onLogin,
-    this.config = const AsanLoginConfig(),
+    required this.config,
     this.loadingWidgetBuilder,
   }) : super(key: key);
 
@@ -41,26 +38,28 @@ class AsanLoginView extends StatefulWidget {
 }
 
 class _AsanLoginViewState extends State<AsanLoginView> {
+  late final AsanLoginBloc _bloc;
+
   String get _url {
-    final devMode = widget.config.environment == AsanLoginEnvironment.dev;
-    final mainUrl = devMode ? asanLoginTestUrl : asanLoginProdUrl;
-    final suffix = widget.packageName;
+    final preProdMode = widget.config.environment == AsanLoginEnvironment.preProd;
+    final mainUrl = preProdMode ? _preProdUrl : _prodUrl;
+    final suffix = Platform.isAndroid ? widget.config.mobileKeyAndroid : widget.config.mobileKeyIos;
 
     return '$mainUrl$suffix';
   }
 
-  bool get _devMode => widget.config.environment == AsanLoginEnvironment.dev;
-
-  final _bloc = AsanLoginBloc();
+  bool get _preProdMode => widget.config.environment == AsanLoginEnvironment.preProd;
 
   @override
   void initState() {
     super.initState();
+
+    _bloc = AsanLoginBloc();
     _configure();
   }
 
   Future<void> _configure() async {
-    _bloc.loggingEnabled = _devMode;
+    _bloc.loggingEnabled = _preProdMode;
 
     /// If the user's already logged in, return [token] string.
     if (!widget.config.clearCookies) {
@@ -85,15 +84,17 @@ class _AsanLoginViewState extends State<AsanLoginView> {
 
         return Stack(
           children: [
-            AnimatedOpacity(
-              duration: kThemeAnimationDuration,
-              opacity: loading ? 1.0 : 0.0,
-              child: widget.loadingWidgetBuilder != null
-                  ? widget.loadingWidgetBuilder!.call(progress)
-                  : CircularProgressIndicator.adaptive(
-                      value: progress,
-                      valueColor: AlwaysStoppedAnimation<Color>(asanLoginColor),
-                    ),
+            Center(
+              child: AnimatedOpacity(
+                duration: kThemeAnimationDuration,
+                opacity: loading ? 1.0 : 0.0,
+                child: widget.loadingWidgetBuilder != null
+                    ? widget.loadingWidgetBuilder!.call(progress)
+                    : CircularProgressIndicator.adaptive(
+                        value: progress,
+                        valueColor: AlwaysStoppedAnimation<Color>(_color),
+                      ),
+              ),
             ),
             AnimatedOpacity(
               duration: kThemeAnimationDuration,
