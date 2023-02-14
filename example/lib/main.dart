@@ -34,9 +34,10 @@ class AsanLoginDemoScreen extends StatelessWidget {
         backgroundColor: Colors.blueGrey.shade900,
       ),
       body: AsanLoginView(
-        packageName: 'com.example.example',
         config: const AsanLoginConfig(
-          environment: AsanLoginEnvironment.dev,
+          mobileKeyAndroid: 'com.example.example',
+          mobileKeyIos: 'com.example.example',
+          environment: AsanLoginEnvironment.preProd,
           clearCookies: true,
         ),
         loadingWidgetBuilder: (double progress) {
