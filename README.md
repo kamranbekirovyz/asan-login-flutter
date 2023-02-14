@@ -1,34 +1,67 @@
-<img src="https://raw.githubusercontent.com/porelarte/asan-login-flutter/master/doc/assets/cover.png" width="100%" alt="logo" />
 
-<h2 align="center">
-ASAN Login for Flutter
-</h2>
+# asan_login_flutter
 
-## Overview
+`ASAN Login` package for Flutter. The main responsibility of the package, as it is sufficient for mobile-side of the projects, is to extract `token` once the user is successfully logged in. The extracted `token`'s payload contains logged user's basic information. For advanced validation of user, please refer to `ASAN Login`'s documentation provided to your institution.
 
-A basic, production-ready, `community-driven` implementation for `ASAN Login`. The main responsibility of the package, as it is sufficient for mobile-side of the projects, is to extract `token` once the user is successfully logged in. The extracted `token`'s payload contains logged user's basic information. For advanced validation of user, please refer to `ASAN Login`'s documentation provided to your institution.
+<img src="https://raw.githubusercontent.com/kamranbekirovyz/asan-login-flutter/master/doc/assets/cover.png" alt="asan_login_flutter" />
 
-NOTE: Altough it does not mean it is unstable, but, nevertheless it's worthwhile to inform developers that are going to use it that, this package is not officially developed and maintained by `ASAN Login` itself, but rather by Flutter community.
-
----
-
-## Usage
+## 🕹️ Usage
 
 ```dart
 Widget build(BuildContext context) {
   return AsanLoginView(
-    packageName: 'com.example.app',
-    config: AsanLoginConfig(
-      progressColor: Colors.indigo,
+      config: const AsanLoginConfig(
+      mobileKeyAndroid: 'com.example.example',
+      mobileKeyIos: 'com.example.example',
+      environment: AsanLoginEnvironment.preProd,
       clearCookies: true,
-      environment: AsanLoginEnvironment.prod,
     ),
+    loadingWidgetBuilder: (double progress) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 80.0),
+        child: LinearProgressIndicator(
+          value: progress / 100,
+        ),
+      );
+    },
     onLogin: (String token) {
-      // TODO: process token
+      log('logged in with token of $token');
     },
   );
 }
 ```
+
+See the <a href="#">example</a> directory for a complete sample app.
+
+## 📝 Roadmap
+
+What are considered as future enhancements?
+
+## 🤓 Contributors
+
+<a  href="https://github.com/al-ventures/telpo-flutter-sdk/graphs/contributors"> <img  src="https://github.com/kamranbekirovyz.png" height="100">
+
+## 💡 Inspired from/by
+
+Give credits to people/packages/plugins/whomever/whatever was/were an inspiration for this package/plugin.
+
+## 🙏 Credits
+
+Give credits to people/packages/plugins/whomever/whatever was/were an inspiration for this package/plugin.
+
+## 🐞 Bugs/Requests
+
+If you encounter any problems please open an issue. If you feel the library is missing a feature, please raise a ticket on GitHub and we'll look into it. Pull requests are welcome.
+
+## 📃 License
+
+MIT License
+
+<img src="https://raw.githubusercontent.com/kamranbekirovyz/asan-login-flutter/master/doc/assets/cover.png" width="100%" alt="logo" />
+
+<h2 align="center">
+ASAN Login for Flutter
+</h2>
 
 ### packageName
 
@@ -55,20 +88,3 @@ Called when user successfully logs in, with `token` (`String`);
 ## Clearing cache
 
 When user's session is terminated on the app (~logout), make sure to call clearAsanLoginCache() global method to make sure user's previous `ASAN Login` cache is cleared from app's cache.
-
----
-
-## TODO
-
-- [x] Retrieve token when logged in.
-- [x] Switching between `dev` and `prod` environments.
-- [x] Documentation for source code.
-- [x] README.md.
-- [ ] Integration tests.
-- [ ] Better documentation of source codes.
-- [x] Example app.
-- [ ] Flutter Web support.
-- [ ] Windows Support.
-- [ ] MacOS support.
-- [ ] Linux support.
-- [ ] Document platform specific configurations if any.

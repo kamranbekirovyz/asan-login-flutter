@@ -41,8 +41,7 @@ class AsanLoginDemoScreen extends StatelessWidget {
           clearCookies: true,
         ),
         loadingWidgetBuilder: (double progress) {
-          return Container(
-            alignment: Alignment.center,
+          return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 80.0),
             child: LinearProgressIndicator(
               value: progress / 100,
