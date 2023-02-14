@@ -15,19 +15,19 @@ Widget build(BuildContext context) {
     mobileKeyIos: 'com.example.example',
     environment: AsanLoginEnvironment.preProd,
     clearCookies: true,
-  ),
-  loadingWidgetBuilder: (double progress) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 80.0),
-      child: LinearProgressIndicator(
-        value: progress / 100,
-      ),
-    );
-  },
-  onLogin: (String token) {
-    log('logged in with token of $token');
-  },
-);
+    ),
+    loadingWidgetBuilder: (double progress) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 80.0),
+        child: LinearProgressIndicator(
+          value: progress / 100,
+        ),
+      );
+    },
+    onLogin: (String token) {
+      log('logged in with token: $token');
+    },
+  );
 }
 ```
 

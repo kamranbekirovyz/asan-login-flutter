@@ -49,7 +49,7 @@ class AsanLoginDemoScreen extends StatelessWidget {
           );
         },
         onLogin: (String token) {
-          log('logged in with token of $token');
+          log('logged in with token: $token');
         },
       ),
     );
