@@ -23,7 +23,7 @@ class AsanLoginView extends StatefulWidget {
   /// A builder parameter for customizing loading animation, which is mainly
   /// visible until full loading of `ASAN Login` web page.
   ///
-  /// The progress ([double]) ranges between 0.0 and 100.0
+  /// The progress ranges between 0.0 and 100.0
   final AsanLoadingWidgetBuilder? loadingWidgetBuilder;
 
   const AsanLoginView({
@@ -61,7 +61,7 @@ class _AsanLoginViewState extends State<AsanLoginView> {
   Future<void> _configure() async {
     _bloc.loggingEnabled = _preProdMode;
 
-    /// If the user's already logged in, return [token] string.
+    /// If the user's already logged in, return `token`.
     if (!widget.config.clearCookies) {
       _bloc.checkCookieForUri(Uri.parse(_url), widget.onLogin);
     }
