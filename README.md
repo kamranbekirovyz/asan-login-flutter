@@ -31,29 +31,30 @@ Widget build(BuildContext context) {
 }
 ```
 
-### mobileKeyAndroid, mobileKeyIos
+#### mobileKeyAndroid, mobileKeyIos
 
 The mobile key under which your project is registered on `ASAN Login`. Make sure to use same `String` for your app's both `applicationId` on Android side and `CFBundleIdentifier` on iOS side to avoid any side effects.
 
-### loadingWidgetBuilder
+#### loadingWidgetBuilder
 
 A builder parameter for customizing loading animation, which is mainly visible until full loading of `ASAN Login` web page.
 
-### clearCookies
+#### clearCookies
 
 When `clearCookies` is set to `true` user stays as logged in if previously logged. When set to `false` (which is recommended to use as a configuration for most of the use cases of `ASAN Login`) user gets redirected to the login page of `ASAN Login` everytime.
 
-### environment
+#### environment
 
 Defines environment for `ASAN Login`. For more info about the enivironments and their behaviors check documentation provided to you by `ASAN Login`
 
-### onLogin
+#### onLogin
 
 Called when user successfully logs in, with `token` (`String`); 
 
-## Clearing cache
+### Clearing cache
 
 When user's session is terminated on the app (~logout), make sure to call clearAsanLoginCache() global method to make sure user's previous `ASAN Login` cache is cleared from app's cache.
+
 
 See the <a href="https://github.com/kamranbekirovyz/asan-login-flutter/blob/master/example/lib/main.dart">example</a> directory for a complete sample app.
 
