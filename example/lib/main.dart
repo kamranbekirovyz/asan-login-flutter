@@ -34,14 +34,14 @@ class AsanLoginDemoScreen extends StatelessWidget {
         backgroundColor: Colors.blueGrey.shade900,
       ),
       body: AsanLoginView(
-        packageName: 'com.example.example',
         config: const AsanLoginConfig(
-          environment: AsanLoginEnvironment.dev,
+          mobileKeyAndroid: 'com.example.example',
+          mobileKeyIos: 'com.example.example',
+          environment: AsanLoginEnvironment.preProd,
           clearCookies: true,
         ),
         loadingWidgetBuilder: (double progress) {
-          return Container(
-            alignment: Alignment.center,
+          return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 80.0),
             child: LinearProgressIndicator(
               value: progress / 100,
@@ -49,7 +49,7 @@ class AsanLoginDemoScreen extends StatelessWidget {
           );
         },
         onLogin: (String token) {
-          log('logged in with token of $token');
+          log('logged in with token: $token');
         },
       ),
     );

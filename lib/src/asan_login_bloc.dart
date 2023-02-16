@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:asan_login_flutter/asan_login_flutter.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-/// Business Logic for [AsanLoginView]
+/// Business Logic for `AsanLoginView`
 class AsanLoginBloc {
   AsanLoginBloc() {
-    _progress.add(100.0);
+    _progress.add(0.0);
   }
 
   late final InAppWebViewController webviewController;
