@@ -33,7 +33,7 @@ Widget build(BuildContext context) {
 
 #### mobileKeyAndroid, mobileKeyIos
 
-The mobile key under which your project is registered on `ASAN Login`. Make sure to use same `String` for your app's both `applicationId` on Android side and `CFBundleIdentifier` on iOS side to avoid any side effects.
+The mobile key for platform (iOS, Android) under which your project is registered on `ASAN Login`.
 
 #### loadingWidgetBuilder
 

@@ -1,3 +1,12 @@
+## 2.0.0
+
+-- **BREAKING** `packageName` replaced with `mobileKeyAndroid` and `mobileKeyIos` separately for platforms.
+- New configurations for pre-prod environment. 
+- Removed unnecessary dependencies, upgraded the "flutter_inappwebview" to the latest version.
+- `AsanLoadingWidgetBuilder loadingWidgetBuilder` for customizing loading animation.
+- Disabled annoying zooming behavior of the `WebView`.
+- Updated README styling. 
+
 ## 1.2.0
 
 Android 12 keyboard appearance issue fixed.

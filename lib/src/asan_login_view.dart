@@ -41,14 +41,18 @@ class _AsanLoginViewState extends State<AsanLoginView> {
   late final AsanLoginBloc _bloc;
 
   String get _url {
-    final preProdMode = widget.config.environment == AsanLoginEnvironment.preProd;
+    final preProdMode =
+        widget.config.environment == AsanLoginEnvironment.preProd;
     final mainUrl = preProdMode ? _preProdUrl : _prodUrl;
-    final suffix = Platform.isAndroid ? widget.config.mobileKeyAndroid : widget.config.mobileKeyIos;
+    final suffix = Platform.isAndroid
+        ? widget.config.mobileKeyAndroid
+        : widget.config.mobileKeyIos;
 
     return '$mainUrl$suffix';
   }
 
-  bool get _preProdMode => widget.config.environment == AsanLoginEnvironment.preProd;
+  bool get _preProdMode =>
+      widget.config.environment == AsanLoginEnvironment.preProd;
 
   @override
   void initState() {

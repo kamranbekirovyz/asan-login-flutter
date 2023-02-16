@@ -11,7 +11,7 @@ class AsanLoginConfig {
 
   /// Defines environment for `ASAN Login`.
   ///
-  /// Values: `preProd`, `prod`. For more info about the enivironments and their 
+  /// Values: `preProd`, `prod`. For more info about the enivironments and their
   /// behaviors check documentation provided to you by `ASAN Login`
   final AsanLoginEnvironment environment;
 
