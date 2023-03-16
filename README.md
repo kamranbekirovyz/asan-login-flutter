@@ -1,4 +1,3 @@
-
 # asan_login_flutter
 
 `ASAN Login` community-maintained plugin-package for Flutter. The main responsibility of the package, as it is sufficient for mobile-side of the projects, is to extract `token` once the user is successfully logged in. The extracted `token`'s payload contains logged user's basic information. For advanced validation of user, please refer to `ASAN Login`'s documentation provided to you.
@@ -60,7 +59,7 @@ See the <a href="https://github.com/kamranbekirovyz/asan-login-flutter/blob/mast
 
 ## 🤓 Contributors
 
-<a  href="https://github.com/kamranbekirovyz/asan-login-flutter/graphs/contributors"> <img  src="https://github.com/kamranbekirovyz.png" height="100">
+<a  href="https://github.com/kamranbekirovyz/asan-login-flutter/graphs/contributors"> <img  src="https://github.com/kamranbekirovyz.png" height="100"></a>
 
 ## 🐞 Bugs/Requests
 
